@@ -209,12 +209,13 @@ async function fetchCharactersBySearch({ searchTerm, includeTags, excludeTags, n
     }
 
     // Clear previous search results
-    chubCharacters = [];
-
-    // Check if searchData has the expected structure
+    chubCharacters = [];    // Check if searchData has the expected structure
     // The API response might have different structures, so let's be flexible
     let nodes = null;
-    if (searchData && searchData.nodes && Array.isArray(searchData.nodes)) {
+    if (searchData && searchData.data && searchData.data.nodes && Array.isArray(searchData.data.nodes)) {
+        nodes = searchData.data.nodes;
+        console.log(`API returned ${searchData.data.count} total results, ${nodes.length} on page ${searchData.data.page}`);
+    } else if (searchData && searchData.nodes && Array.isArray(searchData.nodes)) {
         nodes = searchData.nodes;
     } else if (searchData && Array.isArray(searchData)) {
         nodes = searchData;
