@@ -212,6 +212,13 @@ async function fetchCharactersBySearch({ searchTerm, includeTags, excludeTags, n
     chubCharacters = [];    // Check if searchData has the expected structure
     // The API response might have different structures, so let's be flexible
     let nodes = null;
+    
+    console.log('Checking response structure...');
+    console.log('searchData exists:', !!searchData);
+    console.log('searchData.data exists:', !!(searchData && searchData.data));
+    console.log('searchData.data.nodes exists:', !!(searchData && searchData.data && searchData.data.nodes));
+    console.log('searchData.data.nodes is array:', !!(searchData && searchData.data && searchData.data.nodes && Array.isArray(searchData.data.nodes)));
+    
     if (searchData && searchData.data && searchData.data.nodes && Array.isArray(searchData.data.nodes)) {
         nodes = searchData.data.nodes;
         console.log(`API returned ${searchData.data.count} total results, ${nodes.length} on page ${searchData.data.page}`);
@@ -226,6 +233,10 @@ async function fetchCharactersBySearch({ searchTerm, includeTags, excludeTags, n
     } else {
         console.error('Unexpected API response structure:', searchData);
         console.log('Available keys:', Object.keys(searchData || {}));
+        if (searchData && searchData.data) {
+            console.log('searchData.data keys:', Object.keys(searchData.data));
+            console.log('searchData.data:', searchData.data);
+        }
         return chubCharacters;
     }
 
